@@ -13,6 +13,7 @@
 	<jaxrs:server id="services" address="/">
 		<jaxrs:serviceBeans>
 			<bean class="com.cl.service.DisplayingService" />
+			<bean class="com.cl.service.TrackingService" />
 		</jaxrs:serviceBeans>
 
 		<jaxrs:providers>
