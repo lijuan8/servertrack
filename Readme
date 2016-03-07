@@ -1,5 +1,7 @@
-
 Restful service for tracking and displaying server's cpu and memory run on Tomcat 8.
+
+Assume one track post per minute per server
+Assume posts for a specific server are in timely manner 
 
 Set up tomcat: (on my mac)
 
@@ -29,14 +31,21 @@ First make sure 8080 is not being used now.
      mvn clean test package
  13) deploy service
      mvn tomcat7:redeploy
- 14) check 
+ 14) display 
      curl -XGET 'http://localhost:8080/servertrack/rest/display/server1/2016-01-01-10-01/10/m' should get an [] result.
+     get server1's load at 2016/01/01 10:01AM for 10 minutes
+     curl -XGET 'http://localhost:8080/servertrack/rest/display/server1/10/m' 
+     get server1's load for the past 10 minutes 
+     curl -XGET 'http://localhost:8080/servertrack/rest/display/server1/10/h' 
+     get server1's load for the past 10 hours
+ 14) track load:
+     curl -XPOST 'ttp://localhost:8080/servertrack/rest/track/server1/2016-01-01-10-00/2000/1000' 
+     track server1's load cpu 20% memory 10% at 2016/01/01 10:00AM 
+     curl -XPOST 'ttp://localhost:8080/servertrack/rest/track/server1/3000/1000' 
+     track server1's current load cpu 30% memory 10% 
 
-testing:
-
+testing scripts:
  ./scripts/post.sh: will post data in load.txt to server
-       Specific Note: for a specific server, data posted to server much be in timely manner. Otherwise it might cause issues.
-
  ./scripts/get.sh: will make get requests from request.txt and write to file test.result.
 
  At the end, run /Library/Tomcat/bin/shutdown.sh to shutdown tomcat.
